@@ -1,6 +1,5 @@
 <p align="center">
-  <img src="https://gudong.s3.bitiful.net/images/gudong-cover-banner.png" width="800" alt="Gudong Cover Banner">
-  <!-- TODO: 请替换为你实际的项目 Banner 图片链接，建议是生成的封面拼图 -->
+  <img src="https://gudong.s3.bitiful.net/weimd/1769075696028_微信图片_20260122175419_1042_82.jpg" width="800" alt="Gudong Cover Banner">
 </p>
 
 <h1 align="center">Gudong Cover 咕咚封面</h1>
@@ -20,17 +19,34 @@
   <img alt="Powered by Gemini" src="https://img.shields.io/badge/Powered%20by-Gemini%203%20Flash-blue">
 </p>
 
+<p align="center">
+  <a href="https://cover.gudong.site/"><strong>🚀 在线体验 (Live Demo)</strong></a>
+</p>
+
 ---
 
 ## 📖 简介
 
-**Gudong Cover** 是一款专为内容创作者打造的极简封面生成工具。
+**Gudong Cover** 是一款基于 **Vibe Coding** 理念构建的极简封面生成工具。
 
 作为一名写了十几年代码和文章的开发者，我深知“写作心流”被打断的痛苦。当你写完一篇干货满满的文章，却因为找不到一张合适的封面图而陷入半小时的“找图焦虑”时，表达的摩擦力就产生了。
 
 Gudong Cover 的使命是**消除这最后三公里的摩擦力**。你只需要输入文章主题，剩下的排版、配色、文案提炼，全部交给 AI。
 
 👉 **[阅读设计背后的故事：我为什么要造这个工具？](doc/marketing_launch.md)**
+
+---
+
+## 🤝 最佳创作流 (Best Workflow)
+
+Gudong Cover 并不是一个孤立的工具，它是**高效写作生态**的一部分。
+
+推荐配合 **[WeiMD](https://weimd.gudong.site/)** 使用 —— 一款极其优雅的公众号 Markdown 排版工具。
+
+1.  **WeiMD**: 沉浸式 Markdown 写作，一键渲染为公众号格式。
+2.  **Gudong Cover**: 一键生成封面，通过 URL 参数无缝跳转。
+
+> **“WeiMD 负责里子，Gudong Cover 负责面子。”**
 
 ---
 
@@ -41,8 +57,22 @@ Gudong Cover 的使命是**消除这最后三公里的摩擦力**。你只需要
     - **公众号模式 (2.35:1)**：极简、深色、强调效率与专业感。
     - **小红书模式 (3:4)**：高饱和、大字报、强调情绪与点击欲。
 - **⚡️ 极速生成** — 基于 Google Gemini 3 Flash 模型，平均生成时间 < 2 秒。
-- **🖼️ 纯前端渲染** — 使用 React + Tailwind CSS 实时绘制，所见即所得。
+- **🔗 URL 联动** — 支持通过 URL 参数自动填充标题，方便集成到其他工具。
 - **💾 一键导出** — 自动生成高分辨率 PNG 图片，即下即用。
+
+---
+
+## 🔌 集成指南 (Integration)
+
+Gudong Cover 支持通过 URL 参数预填充内容，方便与其他编辑器或工作流集成。
+
+**参数格式：**
+```
+https://cover.gudong.site/?title=您的文章标题
+```
+
+**示例：**
+[https://cover.gudong.site/?title=如何使用React构建应用](https://cover.gudong.site/?title=如何使用React构建应用)
 
 ---
 
@@ -59,8 +89,6 @@ Gudong Cover 的使命是**消除这最后三公里的摩擦力**。你只需要
 ---
 
 ## 🛠️ 技术栈
-
-本项目基于 **Vibe Coding** 理念构建，强调代码的简洁与美感。
 
 - **Framework**: [React 19](https://react.dev/) (Vite)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
@@ -136,6 +164,7 @@ Gudong Cover 的使命是**消除这最后三公里的摩擦力**。你只需要
 
 ## 🌟 更多作品
 
+- **[WeiMD 公众号排版](https://weimd.gudong.site/)**: 专为公众号打造的 Markdown 编辑器，支持一键复制。
 - **[SlideNote 侧边笔记](https://github.com/maoruibin/SlideNote)**: Chrome 浏览器侧边栏笔记插件，跨设备自动同步。
 - **博客**: [blog.gudong.site](https://blog.gudong.site/)
 

@@ -45,6 +45,18 @@ const App: React.FC = () => {
     }
   }, []);
 
+  // Handle URL parameters for external integration (e.g., from WeiMD)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const titleFromUrl = params.get('title');
+    
+    if (titleFromUrl) {
+      setTopic(titleFromUrl);
+      // Optional: We could automatically clean the URL to make it look nicer, 
+      // but keeping it might be useful for refresh persistence.
+    }
+  }, []);
+
   const handleSaveSettings = (newSettings: AppSettings) => {
     setSettings(newSettings);
     localStorage.setItem('gudong_cover_settings', JSON.stringify(newSettings));

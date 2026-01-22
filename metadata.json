@@ -1,0 +1,5 @@
+{
+  "name": "Gudong Cover",
+  "description": "Designed by Gudong. A dual-platform (WeChat & Xiaohongshu) AI cover generator using Gemini 3 Flash.",
+  "requestFramePermissions": []
+}

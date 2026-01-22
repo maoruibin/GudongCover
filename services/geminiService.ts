@@ -7,7 +7,14 @@ export const generateCoverHtml = async (
   topic: string, 
   platform: Platform
 ): Promise<string> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = process.env.API_KEY;
+  
+  if (!apiKey || apiKey.includes("your_api_key_here")) {
+    console.error("API Key is missing or invalid.");
+    throw new Error("API Key 未配置。请在 .env 文件或 Cloudflare 环境变量中设置 API_KEY。");
+  }
+
+  const ai = new GoogleGenAI({ apiKey: apiKey });
   
   const systemPrompt = platform === Platform.WeChat ? wechatPrompt : xhsPrompt;
   
@@ -40,6 +47,6 @@ export const generateCoverHtml = async (
     return text;
   } catch (error) {
     console.error("Gemini API Error:", error);
-    throw new Error("Failed to generate cover. Please try again.");
+    throw new Error("Failed to generate cover. Please check your API Key and try again.");
   }
 };

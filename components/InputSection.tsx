@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from '../types';
-import { Layout, Smartphone, Wand2 } from 'lucide-react';
+import { Layout, Smartphone, Wand2, AlertTriangle } from 'lucide-react';
 
 interface InputSectionProps {
   topic: string;
@@ -9,6 +9,7 @@ interface InputSectionProps {
   setPlatform: (platform: Platform) => void;
   onGenerate: () => void;
   isLoading: boolean;
+  usingCustomKey: boolean;
 }
 
 const InputSection: React.FC<InputSectionProps> = ({
@@ -18,7 +19,16 @@ const InputSection: React.FC<InputSectionProps> = ({
   setPlatform,
   onGenerate,
   isLoading,
+  usingCustomKey,
 }) => {
+  const charCount = topic.length;
+  // Threshold for warning about length
+  const MAX_FREE_CHARS = 800;
+  // Only show the warning box if not using a custom key AND text is long
+  const showWarningBox = !usingCustomKey && charCount > MAX_FREE_CHARS;
+  // Always highlight count if long
+  const isLong = charCount > MAX_FREE_CHARS;
+
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 flex flex-col gap-6 h-full border border-slate-100">
       <div>
@@ -58,16 +68,38 @@ const InputSection: React.FC<InputSectionProps> = ({
       </div>
 
       {/* Text Input */}
-      <div className="flex-grow flex flex-col">
-        <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-          文章主题 / 标题
-        </label>
-        <textarea
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          placeholder="例如：适合程序员的5个远程办公技巧..."
-          className="w-full h-40 p-4 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-none text-slate-700 transition-all"
-        />
+      <div className="flex-grow flex flex-col min-h-0">
+        <div className="flex justify-between items-center mb-2">
+           <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+             文章主题 / 标题
+           </label>
+           {/* Character Count */}
+           <span className={`text-xs transition-colors ${isLong ? 'text-orange-500 font-bold' : 'text-slate-300'}`}>
+             {charCount} 字
+           </span>
+        </div>
+        
+        <div className="relative flex-grow flex flex-col">
+            <textarea
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            placeholder="例如：适合程序员的5个远程办公技巧..."
+            className={`w-full flex-1 p-4 rounded-xl border ${isLong ? 'border-orange-300 focus:ring-orange-200' : 'border-slate-200 focus:ring-purple-500'} bg-slate-50 focus:bg-white focus:ring-2 focus:border-transparent outline-none resize-none text-slate-700 transition-all`}
+            />
+        </div>
+
+        {/* Token Warning (Only for default key users) */}
+        {showWarningBox && (
+            <div className="mt-2 p-3 bg-orange-50 border border-orange-100 rounded-lg flex items-start gap-2 animate-in fade-in slide-in-from-top-1">
+                <AlertTriangle className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
+                <div className="text-xs text-orange-700 leading-relaxed">
+                    <p className="font-bold">内容较长</p>
+                    <p className="opacity-90 mt-0.5">
+                        公共 Token 额度有限，长文本可能导致生成失败。建议精简内容，或在设置中<span className="underline decoration-dashed cursor-help" title="配置自定义 Key 后将不再提示此警告">配置您的 API Key</span>。
+                    </p>
+                </div>
+            </div>
+        )}
       </div>
 
       {/* Generate Button */}

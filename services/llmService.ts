@@ -10,19 +10,11 @@ export const generateCoverHtml = async (
   platform: Platform,
   settings: AppSettings
 ): Promise<string> => {
-  const { provider, apiKey } = settings;
+  const { provider, apiKey: customKey } = settings;
   
-  // 1. Validate API Key
-  // If using Gemini and no custom key is provided, try to use the env var
-  const effectiveApiKey = apiKey || (provider === AIProvider.Gemini ? process.env.API_KEY : "");
-
-  if (!effectiveApiKey) {
-    throw new Error(`请在设置中配置 ${provider === AIProvider.DeepSeek ? 'DeepSeek' : 'Gemini'} 的 API Key`);
-  }
-
   const systemPrompt = platform === Platform.WeChat ? wechatPrompt : xhsPrompt;
 
-  // 2. Common User Prompt
+  // Common User Prompt
   const userPrompt = `
     Based on the System Instructions provided above, generate the HTML/Tailwind code for the following topic:
     "${topic}"
@@ -37,9 +29,22 @@ export const generateCoverHtml = async (
 
   try {
     if (provider === AIProvider.DeepSeek) {
-      return await callDeepSeek(effectiveApiKey, systemPrompt, userPrompt);
+      // Logic: Prioritize Custom Key -> Env Key -> Fail
+      const apiKey = customKey?.trim() || process.env.DEEPSEEK_API_KEY || "";
+      
+      if (!apiKey) {
+        throw new Error("DeepSeek API Key 未配置。请在设置中输入您的 Key，或配置环境变量。");
+      }
+      return await callDeepSeek(apiKey, systemPrompt, userPrompt);
     } else {
-      return await callGemini(effectiveApiKey, systemPrompt, userPrompt);
+      // Gemini
+      // Logic: Prioritize Custom Key -> Env Key -> Fail
+      const apiKey = customKey?.trim() || process.env.API_KEY || "";
+
+      if (!apiKey) {
+         throw new Error("Gemini API Key 未配置。请在设置中输入您的 Key，或配置环境变量。");
+      }
+      return await callGemini(apiKey, systemPrompt, userPrompt);
     }
   } catch (error: any) {
     console.error(`${provider} API Error:`, error);
@@ -49,10 +54,10 @@ export const generateCoverHtml = async (
 
 // --- Gemini Implementation ---
 async function callGemini(apiKey: string, systemPrompt: string, userPrompt: string): Promise<string> {
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = new GoogleGenAI({ apiKey: apiKey });
   
   const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview", // Or gemini-2.0-flash
+    model: "gemini-3-flash-preview",
     contents: [
       { role: "user", parts: [{ text: systemPrompt + "\n\n" + userPrompt }] }
     ]

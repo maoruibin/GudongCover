@@ -4,10 +4,12 @@ import { generateCoverHtml } from './services/llmService';
 import InputSection from './components/InputSection';
 import PreviewSection from './components/PreviewSection';
 import SettingsModal from './components/SettingsModal';
-import { Palette, Github, Settings as SettingsIcon } from 'lucide-react';
+import AboutModal from './components/AboutModal';
+import DonateModal from './components/DonateModal';
+import { Palette, Github, Settings as SettingsIcon, User, Gift } from 'lucide-react';
 
 const DEFAULT_SETTINGS: AppSettings = {
-  provider: AIProvider.Gemini,
+  provider: AIProvider.DeepSeek,
   apiKey: ''
 };
 
@@ -20,6 +22,12 @@ const App: React.FC = () => {
   // Settings State
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
+
+  // About State
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
+
+  // Donate State
+  const [isDonateOpen, setIsDonateOpen] = useState(false);
 
   // Load settings from local storage on mount
   useEffect(() => {
@@ -72,7 +80,37 @@ const App: React.FC = () => {
               Gudong <span className="text-purple-600 font-normal">Cover</span>
             </h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 md:gap-2">
+
+             {/* Donate Button - Added here */}
+             <button 
+              onClick={() => setIsDonateOpen(true)}
+              className="p-2 text-rose-500 hover:bg-rose-50 rounded-full transition-colors relative group"
+              title="请作者喝咖啡"
+            >
+              <Gift className="w-5 h-5" />
+            </button>
+             
+             {/* About Button - Updated to User icon, smaller size */}
+             <button 
+              onClick={() => setIsAboutOpen(true)}
+              className="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors"
+              title="关于作者"
+            >
+              <User className="w-5 h-5" />
+            </button>
+
+             {/* Github Link */}
+             <a 
+              href="https://github.com/maoruibin/GudongCover" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors"
+              title="View Source on GitHub"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+
              {/* Settings Button */}
              <button 
               onClick={() => setIsSettingsOpen(true)}
@@ -86,22 +124,14 @@ const App: React.FC = () => {
               )}
             </button>
 
-            <div className="hidden md:flex items-center gap-2 text-xs font-medium bg-slate-100 px-3 py-1 rounded-full text-slate-500">
+            {/* Model Indicator - Moved to far right */}
+            <div className="hidden md:flex items-center gap-2 text-xs font-medium bg-slate-100 px-3 py-1.5 rounded-full text-slate-500 border border-slate-200 ml-2">
               <span>Model:</span>
               <span className={settings.provider === AIProvider.DeepSeek ? "text-indigo-600 font-bold" : "text-blue-600 font-bold"}>
                 {settings.provider === AIProvider.DeepSeek ? 'DeepSeek V3' : 'Gemini 3 Flash'}
               </span>
             </div>
 
-            <a 
-              href="https://github.com/maoruibin/GudongCover" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-slate-400 hover:text-slate-800 transition-colors"
-              title="View Source on GitHub"
-            >
-              <Github className="w-6 h-6" />
-            </a>
           </div>
         </div>
       </header>
@@ -119,6 +149,7 @@ const App: React.FC = () => {
               setPlatform={setPlatform}
               onGenerate={handleGenerate}
               isLoading={isLoading}
+              usingCustomKey={!!settings.apiKey}
             />
           </div>
 
@@ -133,12 +164,20 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* Settings Modal */}
+      {/* Modals */}
       <SettingsModal 
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         settings={settings}
         onSave={handleSaveSettings}
+      />
+      <AboutModal
+        isOpen={isAboutOpen}
+        onClose={() => setIsAboutOpen(false)}
+      />
+      <DonateModal 
+        isOpen={isDonateOpen}
+        onClose={() => setIsDonateOpen(false)}
       />
     </div>
   );

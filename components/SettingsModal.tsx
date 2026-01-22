@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Settings, X, Key, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Settings, X, CheckCircle2, KeyRound } from 'lucide-react';
 import { AIProvider, AppSettings } from '../types';
 
 interface SettingsModalProps {
@@ -84,35 +84,25 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, settings
 
           {/* API Key Input */}
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-slate-700 flex items-center justify-between">
-              API Key配置
-              {localSettings.provider === AIProvider.Gemini && (
-                <span className="text-xs font-normal text-slate-400">
-                  如未填则使用默认 Key
-                </span>
-              )}
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Key className="h-4 w-4 text-slate-400" />
-              </div>
-              <input
+             <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                <KeyRound className="w-4 h-4 text-slate-400" />
+                自定义 API Key <span className="text-slate-400 font-normal text-xs">(可选)</span>
+             </label>
+             <input
                 type="password"
-                value={localSettings.apiKey}
+                value={localSettings.apiKey || ''}
                 onChange={(e) => setLocalSettings({ ...localSettings, apiKey: e.target.value })}
-                placeholder={localSettings.provider === AIProvider.Gemini ? "默认使用系统内置 Key" : "请输入 sk- 开头的 Key"}
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm font-mono text-slate-700 transition-all placeholder:text-slate-400"
-              />
-            </div>
-            
-            <div className="flex items-start gap-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-500">
-              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-slate-400" />
-              <p>
-                {localSettings.provider === AIProvider.Gemini 
-                  ? "Gemini 3 Flash 速度极快。您可以去 Google AI Studio 免费申请 Key。" 
-                  : "DeepSeek API 兼容 OpenAI 格式。模型使用 deepseek-chat (V3)。"}
-              </p>
-            </div>
+                placeholder={localSettings.provider === AIProvider.DeepSeek ? "sk-..." : "AIza..."}
+                className="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-500 outline-none transition-all text-sm font-mono text-slate-600 placeholder:text-slate-300"
+             />
+             <div className="text-xs text-slate-400 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
+                <p>💡 <strong>提示：</strong></p>
+                <ul className="list-disc list-inside mt-1 space-y-1">
+                    <li>如果您留空，将尝试使用系统内置的免费 Key (可能不稳定)。</li>
+                    <li>建议填入您自己的 Key 以获得最佳速度和稳定性。</li>
+                    <li>Key 仅存储在本地浏览器，不会上传服务器。</li>
+                </ul>
+             </div>
           </div>
 
         </div>

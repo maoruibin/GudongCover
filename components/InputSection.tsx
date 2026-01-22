@@ -29,8 +29,16 @@ const InputSection: React.FC<InputSectionProps> = ({
   // Always highlight count if long
   const isLong = charCount > MAX_FREE_CHARS;
 
+  // Wrapper for generate to add haptic feedback
+  const handleGenerate = () => {
+    if (navigator.vibrate) {
+        navigator.vibrate(15); // Light tap feedback
+    }
+    onGenerate();
+  };
+
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 flex flex-col gap-6 h-full border border-slate-100">
+    <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 flex flex-col gap-6 h-full border border-slate-100 relative">
       <div>
         <h2 className="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">
           <Wand2 className="w-6 h-6 text-purple-600" />
@@ -84,7 +92,8 @@ const InputSection: React.FC<InputSectionProps> = ({
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             placeholder="例如：适合程序员的5个远程办公技巧..."
-            className={`w-full flex-1 p-4 rounded-xl border ${isLong ? 'border-orange-300 focus:ring-orange-200' : 'border-slate-200 focus:ring-purple-500'} bg-slate-50 focus:bg-white focus:ring-2 focus:border-transparent outline-none resize-none text-slate-700 transition-all`}
+            // Increased min-height to 300px for better visibility on both mobile and desktop
+            className={`w-full flex-1 min-h-[300px] lg:min-h-0 p-4 rounded-xl border ${isLong ? 'border-orange-300 focus:ring-orange-200' : 'border-slate-200 focus:ring-purple-500'} bg-slate-50 focus:bg-white focus:ring-2 focus:border-transparent outline-none resize-none text-slate-700 transition-all text-base leading-relaxed`}
             />
         </div>
 
@@ -102,30 +111,38 @@ const InputSection: React.FC<InputSectionProps> = ({
         )}
       </div>
 
-      {/* Generate Button */}
-      <button
-        onClick={onGenerate}
-        disabled={isLoading || !topic.trim()}
-        className={`w-full py-4 rounded-xl font-bold text-white text-lg shadow-lg flex items-center justify-center gap-2 transition-all transform active:scale-[0.98] ${
-          isLoading || !topic.trim()
-            ? 'bg-slate-300 cursor-not-allowed'
-            : platform === Platform.WeChat
-            ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-green-200 hover:from-green-600 hover:to-emerald-700'
-            : 'bg-gradient-to-r from-rose-500 to-pink-600 hover:shadow-rose-200 hover:from-rose-600 hover:to-pink-700'
-        }`}
-      >
-        {isLoading ? (
-          <>
-            <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
-            生成中...
-          </>
-        ) : (
-          <>
-            <Wand2 className="w-5 h-5" />
-            生成封面
-          </>
-        )}
-      </button>
+      {/* Mobile Spacer: Prevents content from being hidden behind the fixed button */}
+      <div className="h-24 md:hidden shrink-0"></div>
+
+      {/* Generate Button: Sticky Bottom on Mobile, Static on Desktop */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 pb-6 bg-white/80 backdrop-blur-xl border-t border-slate-200 z-50 md:static md:bg-transparent md:p-0 md:border-0 md:z-auto transition-all">
+        <div className="max-w-7xl mx-auto md:max-w-none w-full">
+            <button
+            onClick={handleGenerate}
+            disabled={isLoading || !topic.trim()}
+            className={`w-full py-4 rounded-xl font-bold text-white text-lg shadow-lg flex items-center justify-center gap-2 transition-all transform active:scale-[0.98] ${
+                isLoading || !topic.trim()
+                ? 'bg-slate-300 cursor-not-allowed'
+                : platform === Platform.WeChat
+                ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-green-200 hover:from-green-600 hover:to-emerald-700'
+                : 'bg-gradient-to-r from-rose-500 to-pink-600 hover:shadow-rose-200 hover:from-rose-600 hover:to-pink-700'
+            }`}
+            >
+            {isLoading ? (
+                <>
+                <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
+                生成中...
+                </>
+            ) : (
+                <>
+                <Wand2 className="w-5 h-5" />
+                生成封面
+                </>
+            )}
+            </button>
+        </div>
+      </div>
+
     </div>
   );
 };

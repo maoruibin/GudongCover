@@ -1,0 +1,41 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="brand_gradient" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7C3AED"/>
+<stop offset="1" stop-color="#2563EB"/>
+</linearGradient>
+<filter id="inner_glow" x="0" y="0" width="512" height="512" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="0" dy="0"/>
+<feGaussianBlur stdDeviation="10"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/>
+<feBlend mode="overlay" in2="shape" result="effect1_innerShadow"/>
+</filter>
+<filter id="drop_shadow" x="80" y="80" width="352" height="352" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="8"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+</defs>
+
+<!-- Background: Apple-style Squircle -->
+<path d="M512 128C512 57.307 454.693 0 384 0H128C57.307 0 0 57.307 0 128V384C0 454.693 57.307 512 128 512H384C454.693 512 512 454.693 512 384V128Z" fill="url(#brand_gradient)"/>
+<path d="M512 128C512 57.307 454.693 0 384 0H128C57.307 0 0 57.307 0 128V384C0 454.693 57.307 512 128 512H384C454.693 512 512 454.693 512 384V128Z" fill="url(#inner_glow)" style="mix-blend-mode: overlay; opacity: 0.5"/>
+
+<!-- Icon Content -->
+<g filter="url(#drop_shadow)">
+<!-- The G Frame -->
+<path d="M340 130H160C121.34 130 90 161.34 90 200V312C90 350.66 121.34 382 160 382H320C358.66 382 390 350.66 390 312V256H290" stroke="white" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- The Sparkle (Magic) -->
+<path d="M430 96C430 96 440 130 440 130C440 130 474 140 474 140C474 140 440 150 440 150C440 150 430 184 430 184C430 184 420 150 420 150C420 150 386 140 386 140C386 140 420 130 420 130C420 130 430 96 430 96Z" fill="#FDE047"/>
+</g>
+</svg>

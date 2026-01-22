@@ -1,0 +1,17 @@
+<svg width="240" height="64" viewBox="0 0 240 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Icon Part -->
+<rect width="64" height="64" rx="16" fill="url(#grad)"/>
+<path d="M42 18H22C17.58 18 14 21.58 14 26V38C14 42.42 17.58 46 22 46H38C42.42 46 46 42.42 46 38V32H34" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M52 10L53.5 14.5L58 16L53.5 17.5L52 22L50.5 17.5L46 16L50.5 14.5L52 10Z" fill="#FDE047"/>
+
+<!-- Text Part -->
+<text x="80" y="40" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="28" fill="#1E293B">Gudong</text>
+<text x="190" y="40" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="28" fill="#7C3AED">Cover</text>
+
+<defs>
+<linearGradient id="grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7C3AED"/>
+<stop offset="1" stop-color="#2563EB"/>
+</linearGradient>
+</defs>
+</svg>

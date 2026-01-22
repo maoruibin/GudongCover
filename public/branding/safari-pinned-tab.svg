@@ -1,0 +1,5 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Pure geometric path, black -->
+<path d="M11 3H5C3.34 3 2 4.34 2 6V10C2 11.66 3.34 13 5 13H10C11.66 13 13 11.66 13 10V8H9.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13.5 1L14 2.5L15.5 3L14 3.5L13.5 5L13 3.5L11.5 3L13 2.5L13.5 1Z" fill="black"/>
+</svg>

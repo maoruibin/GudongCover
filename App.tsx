@@ -3,7 +3,7 @@ import { Platform } from './types';
 import { generateCoverHtml } from './services/geminiService';
 import InputSection from './components/InputSection';
 import PreviewSection from './components/PreviewSection';
-import { Palette } from 'lucide-react';
+import { Palette, Github } from 'lucide-react';
 
 const App: React.FC = () => {
   const [platform, setPlatform] = useState<Platform>(Platform.WeChat);
@@ -41,8 +41,19 @@ const App: React.FC = () => {
               Gudong <span className="text-purple-600 font-normal">Cover</span>
             </h1>
           </div>
-          <div className="text-xs font-medium bg-slate-100 px-3 py-1 rounded-full text-slate-500">
-            由 Gemini 3 Flash 驱动
+          <div className="flex items-center gap-4">
+            <div className="hidden md:block text-xs font-medium bg-slate-100 px-3 py-1 rounded-full text-slate-500">
+              由 Gemini 3 Flash 驱动
+            </div>
+            <a 
+              href="https://github.com/maoruibin/GudongCover" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-slate-800 transition-colors"
+              title="View Source on GitHub"
+            >
+              <Github className="w-6 h-6" />
+            </a>
           </div>
         </div>
       </header>

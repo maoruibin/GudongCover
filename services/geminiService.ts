@@ -1,35 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 import { Platform } from "../types";
+import { wechatPrompt } from "../prompts/wechatPrompt";
+import { xhsPrompt } from "../prompts/xhsPrompt";
 
 export const generateCoverHtml = async (
   topic: string, 
   platform: Platform
 ): Promise<string> => {
-  const apiKey = process.env.API_KEY;
-  if (!apiKey) {
-    throw new Error("API Key not found in environment variables.");
-  }
-
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
-  // 1. Determine which Markdown file to load
-  const promptFile = platform === Platform.WeChat 
-    ? 'prompts/wechatPrompt.md' 
-    : 'prompts/xhsPrompt.md';
-  
-  let systemPrompt = "";
-
-  try {
-    // 2. Fetch the content of the markdown file
-    const response = await fetch(promptFile);
-    if (!response.ok) {
-      throw new Error(`Failed to load prompt file: ${response.statusText}`);
-    }
-    systemPrompt = await response.text();
-  } catch (error) {
-    console.error(`Error loading ${platform} prompt:`, error);
-    throw new Error(`Could not load system configuration for ${platform}.`);
-  }
+  const systemPrompt = platform === Platform.WeChat ? wechatPrompt : xhsPrompt;
   
   // 3. Construct the user prompt
   const userPrompt = `

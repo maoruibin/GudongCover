@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gudong Cover Promo Tiles</title>
-  <!-- html2canvas for saving images -->
+  <title>GudongCover Promo Tiles</title>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     * {
@@ -14,464 +13,873 @@
     }
 
     :root {
-      /* Spacing */
-      --space-1: 8px;
-      --space-2: 16px;
-      --space-3: 24px;
-      --space-4: 32px;
-      --space-5: 40px;
-      --space-6: 48px;
-      --space-7: 56px;
-      --space-8: 64px;
+      /* GudongCover Colors - 暖橙红渐变 */
+      --color-primary: #FF6B6B;
+      --color-primary-dark: #FF8E53;
+      --color-accent: #FFA94D;
+      --color-secondary: #4F46E5;
 
-      /* Brand Colors */
-      --color-bg: #09090b; 
-      --color-primary-start: #7c3aed; 
-      --color-primary-end: #2563eb;
-      
+      /* WeChat style */
+      --wechat-primary: #1a1a2e;
+      --wechat-accent: #4F46E5;
+
+      /* XHS style */
+      --xhs-primary: #FF2442;
+      --xhs-accent: #FF6B81;
+
       --color-text: #ffffff;
-      --color-text-secondary: rgba(255, 255, 255, 0.9);
-      --color-text-tertiary: rgba(255, 255, 255, 0.6);
+      --color-text-secondary: rgba(255, 255, 255, 0.85);
+      --color-text-tertiary: rgba(255, 255, 255, 0.7);
 
-      /* Radius */
+      --bg-card: rgba(255, 255, 255, 0.1);
+      --bg-card-hover: rgba(255, 255, 255, 0.15);
+
+      --radius-sm: 8px;
+      --radius-md: 16px;
       --radius-lg: 24px;
       --radius-xl: 32px;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-      background: #020617;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #0f0f1a;
       min-height: 100vh;
-      padding: var(--space-5);
+      padding: 40px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--space-6);
-      color: white;
-    }
-
-    .header-info { text-align: center; margin-bottom: var(--space-2); }
-    .header-info h1 {
-        background: linear-gradient(to right, #a78bfa, #60a5fa);
-        -webkit-background-clip: text;
-        color: transparent;
-        font-size: 24px;
-        margin-bottom: 8px;
+      gap: 40px;
     }
 
     .label {
-      color: #94a3b8; font-size: 13px; font-weight: 600;
-      margin-bottom: var(--space-2); letter-spacing: 0.5px; text-transform: uppercase;
+      color: #666;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
     }
 
-    .tile-wrapper { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
-
-    /* Button */
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;
-      border-radius: 99px; font-size: 13px; font-weight: 600; cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--color-primary-start), var(--color-primary-end));
-      color: white; border: none; box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
-    }
-    .btn:disabled { opacity: 0.7; cursor: wait; }
-    .spinner {
-      width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Toast */
-    .toast {
-      position: fixed; bottom: 40px; background: #10b981; color: white;
-      padding: 12px 24px; border-radius: 99px; font-weight: 500;
-      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); transform: translateY(100px);
-      opacity: 0; transition: all 0.4s; z-index: 1000;
-    }
-    .toast.show { transform: translateY(0); opacity: 1; }
-
-    /* Lang Switcher */
-    .lang-switcher {
-      position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px); border-radius: 99px; padding: 4px; display: flex; z-index: 100;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .lang-btn {
-      padding: 6px 16px; border-radius: 99px; color: #94a3b8; background: transparent;
-      border: none; font-size: 13px; cursor: pointer;
-    }
-    .lang-btn.active { background: rgba(255,255,255,0.15); color: white; font-weight: 600; }
-    [lang="en"] .zh-text { display: none; }
-    [lang="zh"] .en-text { display: none; }
-
-    /* ==================================================================
-       Tile 1: Small (440x280) 
-       ================================================================== */
-    .tile-small {
-      width: 440px; height: 280px; position: relative; overflow: hidden;
-      border-radius: var(--radius-lg);
-      background: radial-gradient(circle at 100% 0%, #2e1065 0%, #020617 100%);
-      box-shadow: 0 24px 48px -12px rgba(0,0,0,0.5);
-    }
-    .tile-small::before {
-        content: ''; position: absolute; width: 300px; height: 300px;
-        background: conic-gradient(from 180deg at 50% 50%, #7c3aed, #db2777, #7c3aed);
-        filter: blur(80px); opacity: 0.3; top: -100px; right: -100px;
-        animation: rotate 20s linear infinite;
-    }
-    .tile-small .content {
-      position: relative; z-index: 10; height: 100%; padding: 32px;
-      display: flex; flex-direction: column; justify-content: space-between;
-    }
-    .tile-small .top-row { display: flex; justify-content: space-between; }
-    .tile-small .logo-box {
-      width: 56px; height: 56px; background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .tile-small .logo-box svg { width: 28px; height: 28px; color: white; }
-    .tile-small .pill-badge {
-      background: rgba(124, 58, 237, 0.2); border: 1px solid rgba(124, 58, 237, 0.3);
-      color: #e9d5ff; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 600;
-    }
-    .tile-small .title {
-        font-size: 32px; font-weight: 800; letter-spacing: -0.5px;
-        background: linear-gradient(to bottom, #fff, #cbd5e1); -webkit-background-clip: text;
-        color: transparent; margin-bottom: 4px;
-    }
-    .tile-small .subtitle { font-size: 14px; color: var(--color-text-tertiary); }
-
-    /* ==================================================================
-       Tile 2: Marquee (1400x560) 
-       ================================================================== */
-    .tile-marquee {
-      width: 1400px; height: 560px; position: relative; overflow: hidden;
-      border-radius: 32px; background: #0f172a; box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
+    .tile-wrapper {
       display: flex;
-    }
-    .grid-bg {
-        position: absolute; inset: 0;
-        background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        background-size: 60px 60px; mask-image: radial-gradient(circle at center, black, transparent 70%);
-    }
-    .glow-1 {
-        position: absolute; top: -30%; left: -10%; width: 900px; height: 900px;
-        background: radial-gradient(circle, rgba(88, 28, 135, 0.3) 0%, transparent 60%);
-    }
-    .content {
-        position: relative; z-index: 10; width: 100%; height: 100%;
-        display: flex; align-items: center; padding: 0 80px; gap: 40px;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
     }
 
-    /* Left Info: Clean & Minimal */
-    .info-col { flex: 0 0 420px; display: flex; flex-direction: column; justify-content: center; }
-    .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; opacity: 0.9; }
-    .brand-icon {
-        width: 48px; height: 48px; background: linear-gradient(135deg, #7c3aed, #4f46e5);
-        border-radius: 12px; display: flex; align-items: center; justify-content: center;
-    }
-    .brand-name { font-size: 28px; font-weight: 700; }
-    
-    .headline {
-        font-size: 64px; line-height: 1.05; font-weight: 800; margin-bottom: 20px;
-        background: linear-gradient(to right, white, #cbd5e1); -webkit-background-clip: text; color: transparent;
-    }
-    
-    .subheadline {
-        font-size: 20px; color: var(--color-text-secondary); margin-bottom: 40px; font-weight: 400;
-        max-width: 380px; line-height: 1.4;
+    /* Save Button */
+    .save-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
     }
 
-    /* Features: Pills */
-    .features { display: flex; flex-wrap: wrap; gap: 12px; }
-    .feat-pill {
-        display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06);
-        padding: 8px 16px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.08);
-    }
-    .feat-text { font-size: 14px; font-weight: 500; color: white; }
-
-    /* Right Visuals: Clean Mockups */
-    .visual-col {
-        flex: 1; height: 100%; position: relative;
-        display: flex; align-items: center; justify-content: center;
-        perspective: 2000px; /* Flatter */
-    }
-    .mockup-scene {
-        position: relative; width: 100%; height: 400px;
-        transform-style: preserve-3d; transform: rotateY(-5deg) rotateX(2deg);
-    }
-    
-    .real-card {
-        position: absolute; border-radius: 12px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.5); overflow: hidden;
+    .save-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
     }
 
-    /* WeChat Card (Back) */
-    .card-wechat {
-        width: 580px; height: 247px; /* 2.35:1 */
-        background: #1e293b; /* Clean Dark Slate */
-        top: 76px; left: -20px; z-index: 1;
-        transform: translateZ(-20px);
-        display: flex; padding: 0 40px; align-items: center; justify-content: space-between;
-        border: 1px solid rgba(255,255,255,0.05);
+    .save-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
-    .wc-left { display: flex; flex-direction: column; gap: 16px; width: 65%; }
-    .wc-tag { font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: 2px; }
-    .wc-title { font-size: 44px; font-weight: 900; line-height: 1.1; color: white; }
-    .wc-sub { font-size: 16px; color: #64748b; }
-    .wc-icon { font-size: 80px; opacity: 0.9; }
 
-    /* XHS Card (Front) */
-    .card-xhs {
-        width: 260px; height: 346px; /* ~3:4 */
-        background: #fffcf5; /* Warm White */
-        border: 8px solid #0f172a;
-        top: 27px; right: 50px; z-index: 2;
-        transform: translateZ(40px);
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        gap: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    .save-btn .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
     }
-    .xhs-badge {
-        background: #ef4444; color: white; font-size: 16px; font-weight: 800;
-        padding: 6px 16px; border-radius: 99px; transform: rotate(-6deg);
-        border: 2px solid #0f172a; box-shadow: 2px 2px 0 #0f172a;
-    }
-    .xhs-title {
-        font-size: 48px; font-weight: 900; color: #0f172a; text-align: center; line-height: 1.1;
-    }
-    .xhs-highlight {
-        color: #7c3aed; text-decoration: underline; text-decoration-color: #facc15;
-        text-decoration-style: wavy; text-underline-offset: 6px;
-    }
-    .xhs-emoji { font-size: 64px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
 
-    /* SVG */
-    .svg-def { display: none; }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: #fff;
+      padding: 12px 32px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* ==================== Small Promo Tile ==================== */
+    .tile-small {
+      width: 440px;
+      height: 280px;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 50%, var(--color-accent) 100%);
+      border-radius: var(--radius-lg);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(255, 107, 107, 0.35);
+    }
+
+    .tile-small .decoration {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .tile-small .deco-1 {
+      width: 280px;
+      height: 280px;
+      top: -80px;
+      right: -60px;
+    }
+
+    .tile-small .deco-2 {
+      width: 120px;
+      height: 120px;
+      bottom: -40px;
+      left: -20px;
+    }
+
+    .tile-small .deco-3 {
+      width: 60px;
+      height: 60px;
+      top: 40px;
+      left: 180px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tile-small .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 32px;
+    }
+
+    .tile-small .logo-section {
+      flex-shrink: 0;
+    }
+
+    .tile-small .logo {
+      width: 88px;
+      height: 88px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .tile-small .logo svg {
+      width: 52px;
+      height: 52px;
+    }
+
+    .tile-small .text-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tile-small .app-name {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 4px;
+      letter-spacing: 1px;
+      line-height: 1.2;
+    }
+
+    .tile-small .tagline {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .tile-small .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tile-small .feature-tag {
+      padding: 5px 10px;
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-text);
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+    }
+
+    /* ==================== Marquee Promo Tile ==================== */
+    .tile-marquee {
+      width: 1400px;
+      height: 560px;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 50%, var(--color-accent) 100%);
+      border-radius: var(--radius-xl);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 32px 96px rgba(255, 107, 107, 0.4);
+    }
+
+    .tile-marquee .decoration {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tile-marquee .deco-1 {
+      width: 500px;
+      height: 500px;
+      top: -150px;
+      left: -100px;
+    }
+
+    .tile-marquee .deco-2 {
+      width: 400px;
+      height: 400px;
+      bottom: -120px;
+      right: -80px;
+    }
+
+    .tile-marquee .deco-3 {
+      width: 200px;
+      height: 200px;
+      top: 120px;
+      right: 400px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tile-marquee .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 64px 56px;
+      gap: 56px;
+    }
+
+    /* Left Section - Brand */
+    .tile-marquee .left-section {
+      flex: 0 0 420px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tile-marquee .logo-large {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      margin-bottom: 24px;
+    }
+
+    .tile-marquee .logo-large svg {
+      width: 72px;
+      height: 72px;
+    }
+
+    .tile-marquee .app-name-large {
+      font-size: 52px;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+      line-height: 1.1;
+    }
+
+    .tile-marquee .tagline-large {
+      font-size: 18px;
+      color: var(--color-text-secondary);
+      font-weight: 400;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }
+
+    .tile-marquee .tagline-sub {
+      font-size: 14px;
+      color: var(--color-text-tertiary);
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+
+    .tile-marquee .divider {
+      width: 64px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+
+    .tile-marquee .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 24px;
+    }
+
+    .tile-marquee .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tile-marquee .feature-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .tile-marquee .feature-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .tile-marquee .feature-sub {
+      font-size: 11px;
+      color: var(--color-text-tertiary);
+      display: block;
+    }
+
+    /* Right Section - Cover Preview */
+    .tile-marquee .right-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Cover Preview Container */
+    .cover-preview-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+    }
+
+    /* WeChat Cover Preview */
+    .cover-preview-wechat {
+      width: 420px;
+      background: #1a1a2e;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .cover-preview-wechat .cover-header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .cover-preview-wechat .platform-icon {
+      width: 32px;
+      height: 32px;
+      background: #07c160;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .cover-preview-wechat .platform-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .cover-preview-wechat .cover-body {
+      height: 160px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .cover-preview-wechat .cover-body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(79, 70, 229, 0.2) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .cover-preview-wechat .cover-text {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-preview-wechat .cover-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .cover-preview-wechat .cover-subtitle {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 400;
+    }
+
+    .cover-preview-wechat .cover-accent {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.4);
+    }
+
+    .cover-preview-wechat .cover-accent svg {
+      width: 40px;
+      height: 40px;
+      color: #fff;
+    }
+
+    /* XHS Cover Preview */
+    .cover-preview-xhs {
+      width: 200px;
+      background: #fff;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .cover-preview-xhs .cover-header {
+      background: linear-gradient(135deg, #FF2442 0%, #FF6B81 100%);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cover-preview-xhs .platform-icon {
+      width: 24px;
+      height: 24px;
+      background: #fff;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .cover-preview-xhs .platform-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .cover-preview-xhs .cover-body {
+      height: 260px;
+      background: linear-gradient(180deg, #FFF5F5 0%, #FFFFFF 100%);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .cover-preview-xhs .cover-body::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #FF2442, #FF6B81);
+      border-radius: 50%;
+      opacity: 0.2;
+    }
+
+    .cover-preview-xhs .cover-emoji {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .cover-preview-xhs .cover-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .cover-preview-xhs .cover-subtitle {
+      font-size: 12px;
+      color: #666;
+      font-weight: 500;
+      text-align: center;
+      background: #FFE4E6;
+      padding: 4px 12px;
+      border-radius: 12px;
+    }
+
+    /* Flow Arrow */
+    .flow-section {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 20px 32px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius-md);
+      backdrop-filter: blur(10px);
+    }
+
+    .flow-input {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+    }
+
+    .flow-input .input-icon {
+      font-size: 18px;
+    }
+
+    .flow-input .input-text {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+    }
+
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .flow-arrow .arrow-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6));
+    }
+
+    .flow-arrow .arrow-head {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .flow-magic {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .flow-magic .magic-icon {
+      font-size: 18px;
+    }
+
+    .flow-magic .magic-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Ratio Badge */
+    .ratio-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+    }
+
+    /* AI Badge */
+    .ai-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
   </style>
 </head>
-<body lang="zh">
+<body>
 
-  <svg class="svg-def">
-    <symbol id="icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13 0-.93.75-1.69 1.69-1.69h1.99c3.05 0 5.55-2.5 5.55-5.55C22 6.47 17.5 2 12 2z"/>
-      <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
-    </symbol>
-    <symbol id="icon-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
-    <symbol id="icon-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
-    <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
-  </svg>
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">图片已保存！</div>
 
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLang('zh')">中文</button>
-    <button class="lang-btn" onclick="setLang('en')">EN</button>
-  </div>
-
-  <div class="header-info">
-    <h1>Gudong Cover Assets Generator</h1>
-    <p class="label">Cleaner. Faster. Better.</p>
-    <button class="btn btn-primary" onclick="saveAllImages()">
-        <span class="zh-text">保存全部图片</span>
-        <span class="en-text">Save All Assets</span>
+  <!-- Small Promo Tile -->
+  <div class="tile-wrapper">
+    <div class="label">Small Promo Tile (440×280)</div>
+    <div class="tile-small" id="tile-small" data-filename="gudongcover-small">
+      <div class="decoration deco-1"></div>
+      <div class="decoration deco-2"></div>
+      <div class="decoration deco-3"></div>
+      <div class="content">
+        <div class="logo-section">
+          <div class="logo">
+            <svg viewBox="0 0 128 128" fill="none">
+              <rect x="8" y="8" width="112" height="112" rx="24" fill="#FF6B6B"/>
+              <rect x="24" y="24" width="80" height="48" rx="12" fill="#1E293B"/>
+              <rect x="32" y="32" width="40" height="8" rx="4" fill="#FF6B6B"/>
+              <rect x="32" y="44" width="24" height="6" rx="3" fill="rgba(255,255,255,0.5)"/>
+              <circle cx="88" cy="84" r="16" fill="#FF8E53"/>
+              <path d="M84 84L86 82L88 84L92 80" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="text-section">
+          <div class="app-name">GudongCover</div>
+          <div class="tagline">AI 封面，一键生成</div>
+          <div class="features">
+            <span class="feature-tag">🤖 AI 驱动</span>
+            <span class="feature-tag">📱 双平台</span>
+            <span class="feature-tag">⚡ 秒级生成</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="save-btn" onclick="saveTile('tile-small')">
+      <span>💾</span>
+      <span>保存为 PNG</span>
     </button>
   </div>
 
-  <div class="toast" id="toast">Images Saved!</div>
-
-  <!-- SMALL TILE -->
+  <!-- Marquee Promo Tile -->
   <div class="tile-wrapper">
-    <div class="label">Small Tile (440x280)</div>
-    <div class="tile-small" id="tile-small-zh" data-filename="gudong-cover-small-zh">
-        <div class="content">
-            <div class="top-row">
-                <div class="logo-box"><svg><use href="#icon-palette"></use></svg></div>
-                <div class="pill-badge">v1.0.0</div>
+    <div class="label">Marquee Promo Tile (1400×560)</div>
+    <div class="tile-marquee" id="tile-marquee" data-filename="gudongcover-marquee">
+      <div class="decoration deco-1"></div>
+      <div class="decoration deco-2"></div>
+      <div class="decoration deco-3"></div>
+      <div class="content">
+        <div class="left-section">
+          <div class="logo-large">
+            <svg viewBox="0 0 128 128" fill="none">
+              <rect x="8" y="8" width="112" height="112" rx="24" fill="#FF6B6B"/>
+              <rect x="24" y="24" width="80" height="48" rx="12" fill="#1E293B"/>
+              <rect x="32" y="32" width="40" height="8" rx="4" fill="#FF6B6B"/>
+              <rect x="32" y="44" width="24" height="6" rx="3" fill="rgba(255,255,255,0.5)"/>
+              <circle cx="88" cy="84" r="16" fill="#FF8E53"/>
+              <path d="M84 84L86 82L88 84L92 80" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="app-name-large">GudongCover</div>
+          <div class="tagline-large">AI 封面，一键生成</div>
+          <div class="tagline-sub">让内容创作者专注于写作，封面交给 AI</div>
+          <div class="divider"></div>
+          <div class="features-grid">
+            <div class="feature-item">
+              <div class="feature-icon">⚡</div>
+              <div>
+                <div class="feature-text">秒级生成</div>
+                <span class="feature-sub">输入主题立即出图</span>
+              </div>
             </div>
-            <div class="main-text">
-                <div class="title">Gudong Cover</div>
-                <div class="subtitle zh-text">AI 驱动的双平台封面生成器</div>
-                <div class="subtitle en-text">AI-Powered Dual Platform Cover Generator</div>
+            <div class="feature-item">
+              <div class="feature-icon">📱</div>
+              <div>
+                <div class="feature-text">双平台适配</div>
+                <span class="feature-sub">微信 + 小红书</span>
+              </div>
             </div>
+            <div class="feature-item">
+              <div class="feature-icon">🎨</div>
+              <div>
+                <div class="feature-text">智能设计</div>
+                <span class="feature-sub">AI 自动提炼文案</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">💾</div>
+              <div>
+                <div class="feature-text">一键导出</div>
+                <span class="feature-sub">高清 PNG 下载</span>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-    <button class="btn" onclick="saveTile('tile-small-zh')">Save PNG</button>
-  </div>
-
-  <!-- MARQUEE TILE - ZH -->
-  <div class="tile-wrapper">
-    <div class="label">Marquee Tile (1400x560) - ZH</div>
-    <div class="tile-marquee" id="tile-marquee-zh" data-filename="gudong-cover-marquee-zh">
-        <div class="grid-bg"></div>
-        <div class="glow-1"></div>
-        
-        <div class="content">
-            <div class="info-col">
-                <div class="brand-header">
-                    <div class="brand-icon"><svg><use href="#icon-palette"></use></svg></div>
-                    <div class="brand-name">Gudong Cover</div>
+        <div class="right-section">
+          <!-- Cover Preview Container -->
+          <div class="cover-preview-container">
+            <!-- WeChat Cover -->
+            <div class="cover-preview-wechat">
+              <div class="cover-header">
+                <div class="platform-icon">💬</div>
+                <div class="platform-name">微信公众号</div>
+              </div>
+              <div class="cover-body">
+                <div class="ai-badge">✨ AI</div>
+                <div class="cover-text">
+                  <div class="cover-title">如何用 AI 提升效率</div>
+                  <div class="cover-subtitle">从零开始掌握智能工作流</div>
                 </div>
-                <div class="headline">
-                    专注写作，<br>门面交给 AI
+                <div class="cover-accent">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                  </svg>
                 </div>
-                <div class="subheadline">
-                    消除“写作最后三公里”的摩擦力。
-                </div>
-                <div class="features">
-                    <div class="feat-pill">
-                        <svg class="w-4 h-4" style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        <span class="feat-text">极速生成</span>
-                    </div>
-                    <div class="feat-pill">
-                        <svg class="w-4 h-4" style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                        <span class="feat-text">双平台</span>
-                    </div>
-                    <div class="feat-pill">
-                        <svg class="w-4 h-4" style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        <span class="feat-text">PNG 导出</span>
-                    </div>
-                </div>
+                <div class="ratio-badge">2.35:1</div>
+              </div>
             </div>
-
-            <div class="visual-col">
-                <div class="mockup-scene">
-                    <div class="real-card card-wechat">
-                        <div class="wc-left">
-                            <div class="wc-tag">GUDONG COVER</div>
-                            <div class="wc-title">深度思考<br>回归写作</div>
-                            <div class="wc-sub">让观点“体面登场”</div>
-                        </div>
-                        <div class="wc-icon">⚡️</div>
-                    </div>
-
-                    <div class="real-card card-xhs">
-                        <div class="xhs-badge">🔥 建议收藏</div>
-                        <div class="xhs-title">独立开发<br><span class="xhs-highlight">变现指南</span></div>
-                        <div class="xhs-emoji">💰</div>
-                    </div>
-                </div>
+            <!-- XHS Cover -->
+            <div class="cover-preview-xhs">
+              <div class="cover-header">
+                <div class="platform-icon">📕</div>
+                <div class="platform-name">小红书</div>
+              </div>
+              <div class="cover-body">
+                <div class="ai-badge">✨ AI</div>
+                <div class="cover-emoji">🚀</div>
+                <div class="cover-title">效率翻倍！AI 神器推荐</div>
+                <div class="cover-subtitle">打工人必备</div>
+                <div class="ratio-badge">3:4</div>
+              </div>
             </div>
+          </div>
+          <!-- Flow Section -->
+          <div class="flow-section">
+            <div class="flow-input">
+              <span class="input-icon">✏️</span>
+              <span class="input-text">输入文章主题</span>
+            </div>
+            <div class="flow-arrow">
+              <div class="arrow-line"></div>
+              <span class="arrow-head">→</span>
+            </div>
+            <div class="flow-magic">
+              <span class="magic-icon">🪄</span>
+              <span class="magic-text">AI 生成</span>
+            </div>
+            <div class="flow-arrow">
+              <div class="arrow-line"></div>
+              <span class="arrow-head">→</span>
+            </div>
+            <div class="flow-input">
+              <span class="input-icon">🖼️</span>
+              <span class="input-text">精美封面</span>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-    <button class="btn" onclick="saveTile('tile-marquee-zh')">Save PNG</button>
+    <button class="save-btn" onclick="saveTile('tile-marquee')">
+      <span>💾</span>
+      <span>保存为 PNG</span>
+    </button>
   </div>
-
-  <!-- MARQUEE TILE - EN -->
-  <div class="tile-wrapper">
-    <div class="label">Marquee Tile (1400x560) - EN</div>
-    <div class="tile-marquee" id="tile-marquee-en" data-filename="gudong-cover-marquee-en">
-        <div class="grid-bg"></div>
-        <div class="glow-1"></div>
-        
-        <div class="content">
-            <div class="info-col">
-                <div class="brand-header">
-                    <div class="brand-icon"><svg><use href="#icon-palette"></use></svg></div>
-                    <div class="brand-name">Gudong Cover</div>
-                </div>
-                <div class="headline">
-                    Focus on writing,<br>let AI do the rest.
-                </div>
-                <div class="subheadline">
-                    Eliminate the friction of the "last three miles".
-                </div>
-                <div class="features">
-                    <div class="feat-pill">
-                        <svg class="w-4 h-4" style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        <span class="feat-text">Lightning Fast</span>
-                    </div>
-                    <div class="feat-pill">
-                        <svg class="w-4 h-4" style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                        <span class="feat-text">Dual Platform</span>
-                    </div>
-                    <div class="feat-pill">
-                        <svg class="w-4 h-4" style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        <span class="feat-text">PNG Export</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="visual-col">
-                <div class="mockup-scene">
-                    <div class="real-card card-wechat">
-                        <div class="wc-left">
-                            <div class="wc-tag">INSIGHTS</div>
-                            <div class="wc-title">Deep Work<br>Flow State</div>
-                            <div class="wc-sub">Make your ideas visible</div>
-                        </div>
-                        <div class="wc-icon">⚡️</div>
-                    </div>
-
-                    <div class="real-card card-xhs">
-                        <div class="xhs-badge">🔥 MUST READ</div>
-                        <div class="xhs-title">Indie Dev<br><span class="xhs-highlight">Guide</span></div>
-                        <div class="xhs-emoji">💰</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="btn" onclick="saveTile('tile-marquee-en')">Save PNG</button>
-  </div>
-
 
   <script>
-    function setLang(lang) {
-      document.body.setAttribute('lang', lang);
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent.includes(lang === 'zh' ? '中文' : 'EN'));
-      });
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      if (message) toast.innerHTML = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
-    function showToast(msg) {
-        const t = document.getElementById('toast');
-        if(msg) t.innerText = msg;
-        t.classList.add('show');
-        setTimeout(()=>t.classList.remove('show'), 2000);
-    }
+    async function saveTile(tileId) {
+      const tile = document.getElementById(tileId);
+      const btn = tile.parentElement.querySelector('.save-btn');
+      const filename = tile.dataset.filename || 'gudongcover-tile';
 
-    async function saveTile(id) {
-        const el = document.getElementById(id);
-        const filename = el.dataset.filename;
-        const btn = el.nextElementSibling;
-        const originalText = btn.innerText;
-        btn.disabled = true;
-        btn.innerHTML = '<div class="spinner"></div>';
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div>';
 
-        try {
-            const canvas = await html2canvas(el, {
-                scale: 2,
-                backgroundColor: null,
-                useCORS: true,
-                logging: false
-            });
+      try {
+        const canvas = await html2canvas(tile, {
+          scale: 2,
+          backgroundColor: null,
+          logging: false,
+          useCORS: true
+        });
 
-            canvas.toBlob(blob => {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename + '.png';
-                a.click();
-                URL.revokeObjectURL(url);
-                showToast('Image Saved!');
-                btn.disabled = false;
-                btn.innerText = originalText;
-            });
-        } catch(e) {
-            console.error(e);
-            alert('Error generating image');
-            btn.disabled = false;
-            btn.innerText = originalText;
-        }
-    }
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.download = `${filename}.png`;
+          link.href = url;
+          link.click();
+          URL.revokeObjectURL(url);
 
-    async function saveAllImages() {
-        const ids = ['tile-small-zh', 'tile-marquee-zh', 'tile-marquee-en'];
-        for(let id of ids) {
-            await saveTile(id);
-            await new Promise(r => setTimeout(r, 500));
-        }
+          btn.disabled = false;
+          btn.innerHTML = '<span>💾</span><span>保存为 PNG</span>';
+          showToast();
+        }, 'image/png');
+      } catch (error) {
+        console.error('Error saving image:', error);
+        btn.disabled = false;
+        btn.innerHTML = '<span>💾</span><span>保存为 PNG</span>';
+      }
     }
   </script>
 </body>

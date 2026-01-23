@@ -6,7 +6,7 @@ import PreviewSection from './components/PreviewSection';
 import SettingsModal from './components/SettingsModal';
 import AboutModal from './components/AboutModal';
 import DonateModal from './components/DonateModal';
-import Logo from './components/Logo'; // Import the new Logo
+import Logo from './components/Logo';
 import { Github, Settings as SettingsIcon, User, Gift, ChevronLeft } from 'lucide-react';
 
 const DEFAULT_SETTINGS: AppSettings = {
@@ -14,9 +14,41 @@ const DEFAULT_SETTINGS: AppSettings = {
   apiKey: ''
 };
 
+// Helper to reliably get URL parameters from search or hash
+const getUrlParam = (key: string): string | null => {
+  if (typeof window === 'undefined') return null;
+  
+  // 1. Check standard search params (?title=...)
+  const searchParams = new URLSearchParams(window.location.search);
+  if (searchParams.has(key)) return searchParams.get(key);
+  
+  // 2. Check hash params (often used in hash routers /#/?title=...)
+  if (window.location.hash.includes('?')) {
+    const hashPart = window.location.hash.split('?')[1];
+    const hashParams = new URLSearchParams(hashPart);
+    if (hashParams.has(key)) return hashParams.get(key);
+  }
+  
+  return null;
+};
+
 const App: React.FC = () => {
   const [platform, setPlatform] = useState<Platform>(Platform.WeChat);
-  const [topic, setTopic] = useState<string>('');
+  
+  // Initialize topic directly from URL
+  const [topic, setTopic] = useState<string>(() => {
+    const initialTitle = getUrlParam('title');
+    return initialTitle ? decodeURIComponent(initialTitle) : '';
+  });
+
+  // Double-check URL params on mount to handle any router/async delays
+  useEffect(() => {
+    const title = getUrlParam('title');
+    if (title && !topic) {
+       setTopic(decodeURIComponent(title));
+    }
+  }, []);
+
   const [generatedHtml, setGeneratedHtml] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   
@@ -42,18 +74,6 @@ const App: React.FC = () => {
       } catch (e) {
         console.error("Failed to parse settings", e);
       }
-    }
-  }, []);
-
-  // Handle URL parameters for external integration (e.g., from WeiMD)
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const titleFromUrl = params.get('title');
-    
-    if (titleFromUrl) {
-      setTopic(titleFromUrl);
-      // Optional: We could automatically clean the URL to make it look nicer, 
-      // but keeping it might be useful for refresh persistence.
     }
   }, []);
 
@@ -100,13 +120,23 @@ const App: React.FC = () => {
       {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {/* Replaced generic icon with custom Logo */}
+          <div className="flex items-center gap-4">
             <Logo className="w-8 h-8" withText={true} />
+            
+            {/* Tagline / Slogan - Desktop Only */}
+            <div className="hidden md:flex items-center gap-4">
+               {/* Vertical Divider */}
+               <div className="w-[1px] h-4 bg-slate-200"></div>
+               {/* Slogan Text */}
+               <span className="text-sm font-medium text-slate-500 tracking-tight">
+                 专注写作，门面交给 AI
+               </span>
+            </div>
           </div>
+
           <div className="flex items-center gap-1 md:gap-2">
 
-             {/* Donate Button - Added here */}
+             {/* Donate Button */}
              <button 
               onClick={() => setIsDonateOpen(true)}
               className="p-2 text-rose-500 hover:bg-rose-50 rounded-full transition-colors relative group"
@@ -115,7 +145,7 @@ const App: React.FC = () => {
               <Gift className="w-5 h-5" />
             </button>
              
-             {/* About Button - Updated to User icon, smaller size */}
+             {/* About Button */}
              <button 
               onClick={() => setIsAboutOpen(true)}
               className="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors"
@@ -142,13 +172,12 @@ const App: React.FC = () => {
               title="设置 API Key"
             >
               <SettingsIcon className="w-5 h-5" />
-              {/* Dot indicator if custom key is set */}
               {settings.apiKey && (
                 <span className="absolute top-2 right-2 w-2 h-2 bg-green-500 rounded-full border-2 border-white"></span>
               )}
             </button>
 
-            {/* Model Indicator - Moved to far right */}
+            {/* Model Indicator */}
             <div className="hidden md:flex items-center gap-2 text-xs font-medium bg-slate-100 px-3 py-1.5 rounded-full text-slate-500 border border-slate-200 ml-2">
               <span>Model:</span>
               <span className={settings.provider === AIProvider.DeepSeek ? "text-indigo-600 font-bold" : "text-blue-600 font-bold"}>
@@ -178,7 +207,6 @@ const App: React.FC = () => {
           </div>
 
           {/* Right: Preview (Desktop Only) */}
-          {/* We hide this on mobile/tablet because we use the modal instead */}
           <div className="hidden lg:block lg:col-span-8 h-full">
              <PreviewSection 
                 html={generatedHtml} 
@@ -189,7 +217,7 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* Mobile Preview Modal (Full Screen Overlay) */}
+      {/* Mobile Preview Modal */}
       {showMobilePreview && (
         <div className="fixed inset-0 z-[60] bg-slate-50 flex flex-col lg:hidden animate-in slide-in-from-bottom-10 duration-200">
            {/* Modal Header */}
@@ -202,7 +230,7 @@ const App: React.FC = () => {
                 返回修改
               </button>
               <span className="font-bold text-slate-800">预览封面</span>
-              <div className="w-8"></div> {/* Spacer for alignment */}
+              <div className="w-8"></div>
            </div>
 
            {/* Modal Content */}

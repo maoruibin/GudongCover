@@ -130,7 +130,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             {/* Projects */}
             <div>
                 <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
-                    精选独立开发作品
+                    更多独立开发作品
                 </h3>
                 <div className="grid gap-3">
                     {projects.map((project, idx) => (

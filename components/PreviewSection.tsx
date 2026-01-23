@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import html2canvas from 'html2canvas';
 import { Platform } from '../types';
-import { Download, Share2, AlertCircle, Maximize2 } from 'lucide-react';
+import { Download, AlertCircle, Maximize2 } from 'lucide-react';
 
 interface PreviewSectionProps {
   html: string | null;
@@ -19,6 +19,7 @@ const PreviewSection: React.FC<PreviewSectionProps> = ({ html, platform, isLoadi
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   // Calculate the target height based on platform
   const targetHeight = platform === Platform.WeChat 
@@ -30,8 +31,19 @@ const PreviewSection: React.FC<PreviewSectionProps> = ({ html, platform, isLoadi
     const updateScale = () => {
       if (containerRef.current) {
         const parentWidth = containerRef.current.clientWidth;
-        // Calculate scale needed to fit 1080px into the current parent width
-        const newScale = parentWidth / BASE_WIDTH;
+        const parentHeight = containerRef.current.clientHeight;
+        
+        if (parentWidth === 0 || parentHeight === 0) return;
+        
+        // Calculate scale based on width availability
+        const scaleX = parentWidth / BASE_WIDTH;
+        // Calculate scale based on height availability
+        const scaleY = parentHeight / targetHeight;
+        
+        // Use the smaller scale to ensure content fits entirely (contain behavior)
+        // Add a small 5% margin (0.95) to prevent edge touching
+        const newScale = Math.min(scaleX, scaleY) * 0.95;
+        
         setScale(newScale);
       }
     };
@@ -46,33 +58,84 @@ const PreviewSection: React.FC<PreviewSectionProps> = ({ html, platform, isLoadi
     }
 
     return () => observer.disconnect();
-  }, [platform]); // Re-run if platform changes (though width is main factor)
+  }, [platform, targetHeight, html]); // Re-run if platform/height/html changes
 
   const handleDownload = async () => {
-    if (!contentRef.current || !html) return;
+    if (!html || isDownloading) return;
+    setIsDownloading(true);
+
+    // 1. Create a "Ghost Container" for HD Capture
+    // CRITICAL FIX: We place it at top:0, left:0 with opacity:0 instead of off-screen left:-9999px.
+    // Some rendering engines (and html2canvas) have trouble with elements completely outside the viewport,
+    // causing "fragmentation" or layout breaks in complex flex/grid layouts.
+    const ghostContainer = document.createElement('div');
+    
+    ghostContainer.style.position = 'fixed';
+    ghostContainer.style.top = '0';
+    ghostContainer.style.left = '0';
+    ghostContainer.style.width = `${BASE_WIDTH}px`;
+    ghostContainer.style.height = `${targetHeight}px`;
+    ghostContainer.style.zIndex = '-9999';
+    ghostContainer.style.opacity = '0'; // Invisible but rendered in viewport
+    ghostContainer.style.pointerEvents = 'none';
+    ghostContainer.style.overflow = 'hidden';
+    ghostContainer.style.backgroundColor = '#ffffff'; // Ensure white bg
+    
+    // Inject the HTML wrapped in a container that enforces font consistency and layout
+    // We add 'flex' to ensuring h-full children expand correctly
+    ghostContainer.innerHTML = `
+      <div style="width: 100%; height: 100%; display: flex; flex-direction: column;">
+        ${html}
+      </div>
+    `;
+    
+    document.body.appendChild(ghostContainer);
 
     try {
-      // Capture the scaled element, but we tell html2canvas to treat it as if it's full size
-      // We explicitly capture the contentRef which has the 1080px width
-      const canvas = await html2canvas(contentRef.current, {
+      // 2. Wait for the DOM to settle and fonts to load/paint
+      // Increased delay to 500ms to resolve "split element" issues caused by incomplete rendering
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // 3. Capture the ghost element
+      const canvas = await html2canvas(ghostContainer, {
         useCORS: true,
-        scale: 2, // 2x output for ultra HD (2160px width)
+        scale: 2, // 2x scale for Retina/High Res (resulting in ~2160px width)
         backgroundColor: null,
         logging: false,
-        // Critical: Ignore the transform scale during capture so we get full res
-        onclone: (clonedDoc, element) => {
-            element.style.transform = 'none';
+        width: BASE_WIDTH,
+        height: targetHeight,
+        windowWidth: BASE_WIDTH,
+        windowHeight: targetHeight,
+        // Disable scroll adjustment to prevent capturing weird offsets
+        scrollX: 0,
+        scrollY: 0,
+        // Optimizations for better text rendering
+        onclone: (clonedDoc) => {
+            const el = clonedDoc.querySelector('body > div') as HTMLElement;
+            if (el) {
+                // Force font smoothing in the clone
+                el.style.fontFeatureSettings = '"kern" 1';
+                (el.style as any).webkitFontSmoothing = 'antialiased';
+            }
         }
       });
 
+      // 4. Trigger Download
       const image = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.href = image;
       link.download = `gudong-cover-${platform === Platform.WeChat ? 'wechat' : 'xhs'}-${Date.now()}.png`;
       link.click();
+
     } catch (error) {
       console.error('Download failed:', error);
-      alert('生成图片失败，请重试。');
+      alert('生成高清图片失败，请重试。');
+    } finally {
+      // 5. Cleanup
+      if (document.body.contains(ghostContainer)) {
+        document.body.removeChild(ghostContainer);
+      }
+      setIsDownloading(false);
     }
   };
 
@@ -88,10 +151,22 @@ const PreviewSection: React.FC<PreviewSectionProps> = ({ html, platform, isLoadi
         {html && (
           <button
             onClick={handleDownload}
-            className="flex items-center gap-2 text-sm bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-200 active:scale-95"
+            disabled={isDownloading}
+            className={`flex items-center gap-2 text-sm bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-200 active:scale-95 ${
+                isDownloading ? 'opacity-70 cursor-wait' : ''
+            }`}
           >
-            <Download className="w-4 h-4" />
-            下载高清 PNG
+            {isDownloading ? (
+                <>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/>
+                处理中...
+                </>
+            ) : (
+                <>
+                <Download className="w-4 h-4" />
+                下载高清 PNG
+                </>
+            )}
           </button>
         )}
       </div>
@@ -128,11 +203,7 @@ const PreviewSection: React.FC<PreviewSectionProps> = ({ html, platform, isLoadi
         {/* Render Container - Hidden when no HTML to prevent layout shifting/centering issues */}
         <div 
             ref={containerRef} 
-            className={`w-full h-full items-center justify-center relative ${html ? 'flex' : 'hidden'}`}
-            style={{ 
-                // Force container to match aspect ratio structure roughly to avoid huge jumps
-                aspectRatio: platform === Platform.WeChat ? '2.35/1' : 'auto' 
-            }}
+            className={`w-full h-full items-center justify-center relative ${html ? 'flex opacity-100' : 'hidden'}`}
         >
           {html && (
             // TRANSFORM WRAPPER: This scales the huge content down to fit the screen
@@ -143,9 +214,9 @@ const PreviewSection: React.FC<PreviewSectionProps> = ({ html, platform, isLoadi
                     transform: `scale(${scale})`,
                     transformOrigin: 'center center',
                     // Optional: add a shadow to the canvas itself
-                    boxShadow: '0 20px 50px -12px rgba(0, 0, 0, 0.25)' 
+                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' 
                 }}
-                className="transition-transform duration-200 ease-out"
+                className="transition-transform duration-200 ease-out flex-shrink-0"
             >
                 {/* CONTENT: This is the actual 1080px element */}
                 <div

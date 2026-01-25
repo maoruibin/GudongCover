@@ -13,26 +13,17 @@
     }
 
     :root {
-      /* GudongCover Colors - 暖橙红渐变 */
-      --color-primary: #FF6B6B;
-      --color-primary-dark: #FF8E53;
-      --color-accent: #FFA94D;
-      --color-secondary: #4F46E5;
-
-      /* WeChat style */
-      --wechat-primary: #1a1a2e;
-      --wechat-accent: #4F46E5;
-
-      /* XHS style */
-      --xhs-primary: #FF2442;
-      --xhs-accent: #FF6B81;
+      /* Brand Colors - 紫蓝渐变 */
+      --color-primary: #7C3AED;
+      --color-primary-dark: #2563EB;
+      --color-accent: #FDE047;
 
       --color-text: #ffffff;
       --color-text-secondary: rgba(255, 255, 255, 0.85);
       --color-text-tertiary: rgba(255, 255, 255, 0.7);
+      --color-text-dark: #1E293B;
 
       --bg-card: rgba(255, 255, 255, 0.1);
-      --bg-card-hover: rgba(255, 255, 255, 0.15);
 
       --radius-sm: 8px;
       --radius-md: 16px;
@@ -80,12 +71,12 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
     }
 
     .save-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
     }
 
     .save-btn:disabled {
@@ -134,11 +125,11 @@
     .tile-small {
       width: 440px;
       height: 280px;
-      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 50%, var(--color-accent) 100%);
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
       border-radius: var(--radius-lg);
       position: relative;
       overflow: hidden;
-      box-shadow: 0 24px 64px rgba(255, 107, 107, 0.35);
+      box-shadow: 0 24px 64px rgba(124, 58, 237, 0.35);
     }
 
     .tile-small .decoration {
@@ -166,7 +157,7 @@
       height: 60px;
       top: 40px;
       left: 180px;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(253, 224, 71, 0.08);
     }
 
     .tile-small .content {
@@ -183,10 +174,10 @@
       flex-shrink: 0;
     }
 
-    .tile-small .logo {
+    .tile-small .logo-bg {
       width: 88px;
       height: 88px;
-      background: linear-gradient(135deg, #1e293b, #0f172a);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
       border-radius: var(--radius-md);
       display: flex;
       align-items: center;
@@ -194,7 +185,7 @@
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
     }
 
-    .tile-small .logo svg {
+    .tile-small .logo-bg svg {
       width: 52px;
       height: 52px;
     }
@@ -205,13 +196,24 @@
       flex-direction: column;
     }
 
-    .tile-small .app-name {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--color-text);
+    .tile-small .brand-name {
+      display: flex;
+      align-items: center;
+      gap: 4px;
       margin-bottom: 4px;
-      letter-spacing: 1px;
-      line-height: 1.2;
+    }
+
+    .tile-small .brand-name .gudong {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--color-text);
+      letter-spacing: 0.5px;
+    }
+
+    .tile-small .brand-name .cover {
+      font-size: 26px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .tile-small .tagline {
@@ -243,11 +245,11 @@
     .tile-marquee {
       width: 1400px;
       height: 560px;
-      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 50%, var(--color-accent) 100%);
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
       border-radius: var(--radius-xl);
       position: relative;
       overflow: hidden;
-      box-shadow: 0 32px 96px rgba(255, 107, 107, 0.4);
+      box-shadow: 0 32px 96px rgba(124, 58, 237, 0.4);
     }
 
     .tile-marquee .decoration {
@@ -275,7 +277,7 @@
       height: 200px;
       top: 120px;
       right: 400px;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(253, 224, 71, 0.06);
     }
 
     .tile-marquee .content {
@@ -298,7 +300,7 @@
     .tile-marquee .logo-large {
       width: 120px;
       height: 120px;
-      background: linear-gradient(135deg, #1e293b, #0f172a);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
       border-radius: var(--radius-lg);
       display: flex;
       align-items: center;
@@ -312,28 +314,39 @@
       height: 72px;
     }
 
-    .tile-marquee .app-name-large {
-      font-size: 52px;
-      font-weight: 700;
+    .tile-marquee .brand-name-large {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .tile-marquee .brand-name-large .gudong {
+      font-size: 48px;
+      font-weight: 800;
       color: var(--color-text);
-      margin-bottom: 8px;
-      letter-spacing: 2px;
-      line-height: 1.1;
+      letter-spacing: 1px;
+    }
+
+    .tile-marquee .brand-name-large .cover {
+      font-size: 48px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .tile-marquee .tagline-large {
-      font-size: 18px;
+      font-size: 22px;
       color: var(--color-text-secondary);
-      font-weight: 400;
+      font-weight: 500;
       margin-bottom: 8px;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
     }
 
     .tile-marquee .tagline-sub {
       font-size: 14px;
       color: var(--color-text-tertiary);
       font-weight: 300;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .tile-marquee .divider {
@@ -341,7 +354,7 @@
       height: 3px;
       background: rgba(255, 255, 255, 0.4);
       border-radius: 2px;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .tile-marquee .features-grid {
@@ -402,7 +415,7 @@
 
     /* WeChat Cover Preview */
     .cover-preview-wechat {
-      width: 420px;
+      width: 400px;
       background: #1a1a2e;
       border-radius: var(--radius-md);
       overflow: hidden;
@@ -412,34 +425,34 @@
 
     .cover-preview-wechat .cover-header {
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      padding: 20px 24px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .cover-preview-wechat .platform-icon {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       background: #07c160;
-      border-radius: 8px;
+      border-radius: 7px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .cover-preview-wechat .platform-name {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #fff;
     }
 
     .cover-preview-wechat .cover-body {
-      height: 160px;
+      height: 150px;
       background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
-      padding: 24px;
+      padding: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -453,7 +466,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: radial-gradient(ellipse at 80% 50%, rgba(79, 70, 229, 0.2) 0%, transparent 60%);
+      background: radial-gradient(ellipse at 80% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 60%);
       pointer-events: none;
     }
 
@@ -464,39 +477,42 @@
     }
 
     .cover-preview-wechat .cover-title {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
       color: #fff;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       letter-spacing: 1px;
     }
 
     .cover-preview-wechat .cover-subtitle {
-      font-size: 13px;
+      font-size: 12px;
       color: rgba(255, 255, 255, 0.6);
       font-weight: 400;
     }
 
     .cover-preview-wechat .cover-accent {
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      border-radius: 16px;
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.4);
+      box-shadow: 0 8px 32px rgba(124, 58, 237, 0.4);
     }
 
     .cover-preview-wechat .cover-accent svg {
-      width: 40px;
-      height: 40px;
-      color: #fff;
+      width: 36px;
+      height: 36px;
+    }
+
+    .cover-preview-wechat .cover-accent svg path {
+      stroke: #fff;
     }
 
     /* XHS Cover Preview */
     .cover-preview-xhs {
-      width: 200px;
+      width: 190px;
       background: #fff;
       border-radius: var(--radius-md);
       overflow: hidden;
@@ -506,33 +522,33 @@
 
     .cover-preview-xhs .cover-header {
       background: linear-gradient(135deg, #FF2442 0%, #FF6B81 100%);
-      padding: 12px 16px;
+      padding: 10px 14px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .cover-preview-xhs .platform-icon {
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       background: #fff;
-      border-radius: 6px;
+      border-radius: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
+      font-size: 12px;
     }
 
     .cover-preview-xhs .platform-name {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       color: #fff;
     }
 
     .cover-preview-xhs .cover-body {
-      height: 260px;
+      height: 250px;
       background: linear-gradient(180deg, #FFF5F5 0%, #FFFFFF 100%);
-      padding: 20px 16px;
+      padding: 18px 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -543,115 +559,109 @@
     .cover-preview-xhs .cover-body::before {
       content: '';
       position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 40px;
-      height: 40px;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
       background: linear-gradient(135deg, #FF2442, #FF6B81);
       border-radius: 50%;
-      opacity: 0.2;
+      opacity: 0.15;
     }
 
     .cover-preview-xhs .cover-emoji {
-      font-size: 48px;
-      margin-bottom: 16px;
+      font-size: 44px;
+      margin-bottom: 14px;
     }
 
     .cover-preview-xhs .cover-title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 800;
       color: #1a1a1a;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       text-align: center;
       line-height: 1.3;
     }
 
     .cover-preview-xhs .cover-subtitle {
-      font-size: 12px;
+      font-size: 11px;
       color: #666;
       font-weight: 500;
       text-align: center;
       background: #FFE4E6;
-      padding: 4px 12px;
-      border-radius: 12px;
+      padding: 3px 10px;
+      border-radius: 10px;
     }
 
-    /* Flow Arrow */
+    /* Flow Section */
     .flow-section {
       display: flex;
       align-items: center;
-      gap: 24px;
-      padding: 20px 32px;
+      gap: 20px;
+      padding: 16px 28px;
       background: rgba(0, 0, 0, 0.2);
       border-radius: var(--radius-md);
       backdrop-filter: blur(10px);
     }
 
-    .flow-input {
+    .flow-step {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 20px;
+      gap: 10px;
+      padding: 10px 16px;
       background: rgba(255, 255, 255, 0.1);
       border-radius: var(--radius-sm);
     }
 
-    .flow-input .input-icon {
-      font-size: 18px;
+    .flow-step .step-icon {
+      font-size: 16px;
     }
 
-    .flow-input .input-text {
-      font-size: 13px;
+    .flow-step .step-text {
+      font-size: 12px;
       color: var(--color-text-secondary);
+      font-weight: 500;
     }
 
     .flow-arrow {
       display: flex;
       align-items: center;
-      gap: 8px;
     }
 
-    .flow-arrow .arrow-line {
-      width: 60px;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6));
-    }
-
-    .flow-arrow .arrow-head {
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.6);
+    .flow-arrow .arrow-icon {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.4);
     }
 
     .flow-magic {
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 20px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      padding: 10px 16px;
+      background: linear-gradient(135deg, rgba(253, 224, 71, 0.2), rgba(253, 224, 71, 0.1));
       border-radius: var(--radius-sm);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(253, 224, 71, 0.3);
     }
 
     .flow-magic .magic-icon {
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .flow-magic .magic-text {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
-      color: #fff;
+      color: var(--color-accent);
     }
 
     /* Ratio Badge */
     .ratio-badge {
       position: absolute;
-      bottom: 12px;
-      right: 12px;
+      bottom: 10px;
+      right: 10px;
       background: rgba(0, 0, 0, 0.6);
       color: #fff;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 9px;
       font-weight: 600;
       backdrop-filter: blur(10px);
     }
@@ -659,17 +669,21 @@
     /* AI Badge */
     .ai-badge {
       position: absolute;
-      top: 12px;
-      left: 12px;
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      top: 10px;
+      left: 10px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
       color: #fff;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 9px;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
+    }
+
+    .ai-badge .sparkle {
+      color: var(--color-accent);
     }
   </style>
 </head>
@@ -687,24 +701,23 @@
       <div class="decoration deco-3"></div>
       <div class="content">
         <div class="logo-section">
-          <div class="logo">
-            <svg viewBox="0 0 128 128" fill="none">
-              <rect x="8" y="8" width="112" height="112" rx="24" fill="#FF6B6B"/>
-              <rect x="24" y="24" width="80" height="48" rx="12" fill="#1E293B"/>
-              <rect x="32" y="32" width="40" height="8" rx="4" fill="#FF6B6B"/>
-              <rect x="32" y="44" width="24" height="6" rx="3" fill="rgba(255,255,255,0.5)"/>
-              <circle cx="88" cy="84" r="16" fill="#FF8E53"/>
-              <path d="M84 84L86 82L88 84L92 80" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <div class="logo-bg">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M42 18H22C17.58 18 14 21.58 14 26V38C14 42.42 17.58 46 22 46H38C42.42 46 46 42.42 46 38V32H34" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M52 10L53.5 14.5L58 16L53.5 17.5L52 22L50.5 17.5L46 16L50.5 14.5L52 10Z" fill="#FDE047"/>
             </svg>
           </div>
         </div>
         <div class="text-section">
-          <div class="app-name">GudongCover</div>
-          <div class="tagline">AI 封面，一键生成</div>
+          <div class="brand-name">
+            <span class="gudong">Gudong</span>
+            <span class="cover">Cover</span>
+          </div>
+          <div class="tagline">专注写作，封面交给 AI</div>
           <div class="features">
-            <span class="feature-tag">🤖 AI 驱动</span>
-            <span class="feature-tag">📱 双平台</span>
             <span class="feature-tag">⚡ 秒级生成</span>
+            <span class="feature-tag">📱 双平台</span>
+            <span class="feature-tag">💾 一键导出</span>
           </div>
         </div>
       </div>
@@ -725,18 +738,17 @@
       <div class="content">
         <div class="left-section">
           <div class="logo-large">
-            <svg viewBox="0 0 128 128" fill="none">
-              <rect x="8" y="8" width="112" height="112" rx="24" fill="#FF6B6B"/>
-              <rect x="24" y="24" width="80" height="48" rx="12" fill="#1E293B"/>
-              <rect x="32" y="32" width="40" height="8" rx="4" fill="#FF6B6B"/>
-              <rect x="32" y="44" width="24" height="6" rx="3" fill="rgba(255,255,255,0.5)"/>
-              <circle cx="88" cy="84" r="16" fill="#FF8E53"/>
-              <path d="M84 84L86 82L88 84L92 80" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M42 18H22C17.58 18 14 21.58 14 26V38C14 42.42 17.58 46 22 46H38C42.42 46 46 42.42 46 38V32H34" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M52 10L53.5 14.5L58 16L53.5 17.5L52 22L50.5 17.5L46 16L50.5 14.5L52 10Z" fill="#FDE047"/>
             </svg>
           </div>
-          <div class="app-name-large">GudongCover</div>
-          <div class="tagline-large">AI 封面，一键生成</div>
-          <div class="tagline-sub">让内容创作者专注于写作，封面交给 AI</div>
+          <div class="brand-name-large">
+            <span class="gudong">Gudong</span>
+            <span class="cover">Cover</span>
+          </div>
+          <div class="tagline-large">专注写作，封面交给 AI</div>
+          <div class="tagline-sub">让内容创作者专注于表达，封面设计交给 AI</div>
           <div class="divider"></div>
           <div class="features-grid">
             <div class="feature-item">
@@ -779,14 +791,14 @@
                 <div class="platform-name">微信公众号</div>
               </div>
               <div class="cover-body">
-                <div class="ai-badge">✨ AI</div>
+                <div class="ai-badge"><span class="sparkle">✨</span> AI</div>
                 <div class="cover-text">
-                  <div class="cover-title">如何用 AI 提升效率</div>
-                  <div class="cover-subtitle">从零开始掌握智能工作流</div>
+                  <div class="cover-title">深度思考回归写作</div>
+                  <div class="cover-subtitle">让观点体面登场</div>
                 </div>
                 <div class="cover-accent">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                  <svg viewBox="0 0 64 64" fill="none">
+                    <path d="M42 18H22C17.58 18 14 21.58 14 26V38C14 42.42 17.58 46 22 46H38C42.42 46 46 42.42 46 38V32H34" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </div>
                 <div class="ratio-badge">2.35:1</div>
@@ -799,9 +811,9 @@
                 <div class="platform-name">小红书</div>
               </div>
               <div class="cover-body">
-                <div class="ai-badge">✨ AI</div>
+                <div class="ai-badge"><span class="sparkle">✨</span> AI</div>
                 <div class="cover-emoji">🚀</div>
-                <div class="cover-title">效率翻倍！AI 神器推荐</div>
+                <div class="cover-title">效率翻倍！<br>AI 神器推荐</div>
                 <div class="cover-subtitle">打工人必备</div>
                 <div class="ratio-badge">3:4</div>
               </div>
@@ -809,25 +821,19 @@
           </div>
           <!-- Flow Section -->
           <div class="flow-section">
-            <div class="flow-input">
-              <span class="input-icon">✏️</span>
-              <span class="input-text">输入文章主题</span>
+            <div class="flow-step">
+              <span class="step-icon">✏️</span>
+              <span class="step-text">输入主题</span>
             </div>
-            <div class="flow-arrow">
-              <div class="arrow-line"></div>
-              <span class="arrow-head">→</span>
-            </div>
+            <span class="arrow-icon">→</span>
             <div class="flow-magic">
-              <span class="magic-icon">🪄</span>
+              <span class="magic-icon">✨</span>
               <span class="magic-text">AI 生成</span>
             </div>
-            <div class="flow-arrow">
-              <div class="arrow-line"></div>
-              <span class="arrow-head">→</span>
-            </div>
-            <div class="flow-input">
-              <span class="input-icon">🖼️</span>
-              <span class="input-text">精美封面</span>
+            <span class="arrow-icon">→</span>
+            <div class="flow-step">
+              <span class="step-icon">🖼️</span>
+              <span class="step-text">精美封面</span>
             </div>
           </div>
         </div>

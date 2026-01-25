@@ -16,15 +16,16 @@ export const generateCoverHtml = async (
 
   // Common User Prompt
   const userPrompt = `
-    Based on the System Instructions provided above, generate the HTML/Tailwind code for the following topic:
+    Based on the System Instructions provided above, generate the HTML for the following topic:
     "${topic}"
-    
-    STRICT REQUIREMENTS:
-    1. **Output Format**: Return ONLY the raw HTML string for the component. NO markdown blocks (e.g., no \`\`\`html).
-    2. **Structure**: The root element MUST be a single <div> with classes \`w-full h-full\`. 
-    3. **Content**: Do NOT include <html>, <head>, <body> tags or any scripts.
-    4. **Language**: All text MUST be in Simplified Chinese (简体中文).
-    5. **Styling**: Use ONLY Tailwind CSS classes. Ensure high contrast and good readability.
+
+    CRITICAL REQUIREMENTS:
+    1. **Output Format**: Return ONLY the raw HTML string. NO markdown blocks (e.g., no \`\`\`html).
+    2. **Styling**: Use **INLINE STYLES** (style="...") for ALL styling. Do NOT use Tailwind CSS classes.
+    3. **Structure**: The root element MUST have explicit width and height in inline styles.
+    4. **Content**: Do NOT include <html>, <head>, <body> tags or any scripts.
+    5. **Language**: All text MUST be in Simplified Chinese (简体中文).
+    6. **Colors**: Use standard hex colors (#ffffff, #0f172a, etc.) or rgba(). Avoid oklab or other modern color formats.
   `;
 
   try {
